@@ -12,6 +12,6 @@
     "forceConsistentCasingInFileNames": true,
     "noUncheckedIndexedAccess": true
   },
-  "include": ["src/index.ts", "src/publish/**/*.ts"],
+  "include": ["src/index.ts", "src/publish/**/*.ts", "src/channels/**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }

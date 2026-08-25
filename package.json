@@ -1,21 +1,21 @@
 {
-  "name": "skycoin4444-publish-plan",
-  "version": "1.0.0-beta.1",
-  "description": "Deterministic publication planning and schedule-conflict detection primitives",
+  "name": "skycoin4444-creator-domain",
+  "version": "1.1.0-beta.1",
+  "description": "Deterministic creator publication planning and channel-domain primitives",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "files": ["dist", "README.md", "SECURITY.md", "LICENSE"],
+  "files": ["dist", "README.md", "SECURITY.md", "SKYCHANNELS.md", "LICENSE"],
   "scripts": {
     "build": "tsc",
     "typecheck": "tsc --noEmit",
     "lint": "tsc --noEmit",
-    "test": "pnpm run build && node tests/publish-plan.test.js",
+    "test": "pnpm run build && node tests/publish-plan.test.js && node tests/channels.test.js",
     "audit": "pnpm audit --audit-level=high",
     "prepack": "pnpm run build"
   },
   "engines": { "node": ">=20" },
   "packageManager": "pnpm@10.15.1",
-  "keywords": ["skycoin4444", "creator", "publishing", "schedule"],
+  "keywords": ["skycoin4444", "creator", "publishing", "channels"],
   "author": "SKYCOIN4444",
   "license": "MIT",
   "devDependencies": { "typescript": "^5.9.3" }
