@@ -1,44 +1,46 @@
-<!-- PORTFOLIO PROJECT PROFILE: maintained by the repository owner -->
+# Sky Publish Plan
 
-## Project profile and code-audit snapshot
+A deterministic TypeScript publication-planning primitive for creator workflows in the SKYCOIN4444 portfolio.
 
-**What this is:** **skycoin-creator** is a public repository described as: “Creator tools and monetization #SkyCoin4444 #AI #Blockchain #DevOps #Innovation” Its dominant language signals are **TypeScript (8 files)**.
+**Status: engineering beta.** This is not a social network, creator monetization platform, automated posting service, payment system, or deployed scheduler.
 
-**Why it has value:** Its value is best understood through the implementation evidence currently present in the repository: **27 tracked files** were observed in the shallow audit, with the source structure and existing documentation providing the project’s specific context. This README does not treat a prototype, experiment, or archive as a production system without supporting evidence.
+## Implemented behavior
 
-**Implementation evidence:** No test-related file was detected by filename heuristics.; 1 dependency or package manifest(s) detected; 3 build/CI/infrastructure signal(s) detected; and 3 documentation or governance file(s) detected. Test filenames observed include none detected. Dependency or package files include `package.json`. Build, CI, or infrastructure signals include `Dockerfile`, `docker-compose.yml`, `.github/workflows/ci.yml`.
+`buildPublicationPlan()` validates and normalizes bounded publication drafts, lowercases/deduplicates channel identifiers, canonicalizes timestamps, and sorts drafts by publication time then ID. `findPublicationConflicts()` reports drafts targeting the same channel at the same instant.
 
-**Current status:** The repository is tracked on the `main` branch. The existing source tree, configuration, tests, workflows, and documentation remain authoritative for supported behavior and maturity. A code audit is not a production-readiness certification, and the presence of a test or workflow file does not establish that all checks pass.
+```ts
+import { buildPublicationPlan, findPublicationConflicts } from "skycoin4444-publish-plan";
 
-**Relationship to the wider portfolio:** This repository is one focused component of the broader Skyler Blue Spillers portfolio across AI, software engineering, cloud and DevOps, cybersecurity, blockchain, finance, education, social systems, and creative work. It may provide a service boundary, implementation pattern, experiment, archive, or reusable idea for related repositories. Treat repositories as technical dependencies only where documented interfaces and verified project requirements support that relationship.
+const plan = buildPublicationPlan([
+  { id: "launch", title: "Launch", channels: ["web", "mobile"], publishAt: "2026-08-25T12:00:00Z" },
+]);
+const conflicts = findPublicationConflicts(plan);
+```
 
-**Quality and security note:** No obvious secret-like pattern was detected by the limited static scan; this is not a substitute for a security audit. No TODO/FIXME marker was detected in the scanned text files.
+Validation rejects duplicate IDs, invalid/empty titles, empty or malformed channel lists, unsupported channel identifiers, invalid timestamps, and oversized batches.
 
----
+## Verification
 
-# Skycoin Creator
+```bash
+pnpm install
+pnpm typecheck
+pnpm test
+pnpm audit --audit-level=high
+pnpm pack
+```
 
-![GitHub stars](https://img.shields.io/github/stars/skylerblue333/skycoin-creator?style=flat-square)
-![GitHub license](https://img.shields.io/github/license/skylerblue333/skycoin-creator?style=flat-square)
+GitHub Actions performs real typecheck, tests, dependency audit, and package-smoke verification on Node.js 22. Previous scripts that only echoed successful build/test/lint results were removed.
 
-## 🌟 Overview
-**skycoin-creator** is a professional-grade project within the **SkyCoin4444** ecosystem. It focuses on delivering high-value solutions in the domain of **TypeScript**.
+There is intentionally no Docker/database/JWT deployment surface because the current product is a reusable planning library.
 
-## 🚀 Key Features
-- **Scalable Architecture**: Designed for enterprise-level growth and performance.
-- **Modern Standards**: Implements best practices for clean code and maintainability.
-- **Robust Integration**: Built to work seamlessly within modern cloud-native environments.
+## Scope and limitations
 
-## 🛠️ Technology Stack
-- **Primary Domain**: TypeScript
-- **Ecosystem**: SkyCoin4444 Digital Platform
+This package does not publish content, call third-party APIs, authenticate users, store drafts, execute schedules, retry failures, moderate content, process payments, manage rights/licensing, or provide analytics. It only prepares and checks deterministic publication plans.
 
-## 📂 Structure
-The project is organized into a modular structure to ensure clarity and ease of development.
+Historical experiment files remain in the repository for history but are excluded from the supported package build.
 
-## 👨‍💻 Author
-**Skyler Blue Spillers**
-*Professional Chess Player & Software Engineer*
+SKYCOIN4444 creator applications should place provider-specific posting, credentials, persistence, payments, moderation, and scheduling execution behind separate adapters.
 
----
-*Powered by SkyCoin4444*
+## License
+
+MIT, subject to the checked-in license and applicable third-party licenses.
